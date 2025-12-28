@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV | Funmilola Olorode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+           --primary-bg: #1a202c; /* Deep Slate Edge */
+            --secondary-bg: #2d3748; /* Deep Slate Center */
+            --container-bg: #0f172a;
+            --accent-teal: #4fd1c5;
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-white);
+            /* MATCHING PORTFOLIO BACKGROUND */
+            background: radial-gradient(circle, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .no-print-nav {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: var(--text-white);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: var(--text-white); color: var(--primary-bg); }
+
+        .cv-container {
+            max-width: 1050px;
+            margin: 0 auto 50px;
+            display: flex;
+            background: var(--container-bg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 50px 35px;
+            background: rgba(0, 0, 0, 0.2);
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar h1 { font-size: 1.8rem; font-weight: 300; margin: 0; letter-spacing: 2px; }
+        .sidebar-tagline { color: var(--accent-teal); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; display: block; }
+
+        .sidebar-h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 20px; }
+
+        /* CONTACT VISIBILITY FIX */
+        .contact-item { display: flex; align-items: center; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-white); text-decoration: none; }
+        .contact-item i { color: var(--accent-teal) !important; width: 25px; font-size: 1rem; }
+
+        /* SKILLS */
+        .skill-container { margin-bottom: 20px; }
+        .skill-info { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px; }
+        .progress-bg { height: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent-teal); transition: 1.5s ease-out; }
+
+        .main-content { padding: 50px; flex: 1; }
+        .summary-box { background: rgba(79, 209, 197, 0.05); border-left: 3px solid var(--accent-teal); padding: 25px; margin-bottom: 40px; }
+
+        .section-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; margin-bottom: 25px; }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin-left: 15px; }
+
+        .exp-item { margin-bottom: 30px; }
+        .exp-header { display: flex; justify-content: space-between; font-weight: 600; }
+        .exp-sub { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-teal); margin-bottom: 10px; }
+        ul { padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
+        li { margin-bottom: 8px; }
+
+        /* PRINTING ENGINE FIX */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print-nav { display: none !important; }
+            .cv-container { display: flex !important; flex-direction: row !important; width: 100% !important; background: white !important; box-shadow: none !important; }
+            .sidebar { width: 30% !important; background: #f8fafc !important; color: black !important; border-right: 1px solid #eee !important; -webkit-print-color-adjust: exact; }
+            .main-content { width: 70% !important; color: black !important; }
+            .contact-item i, .exp-sub, .sidebar-tagline { color: #008080 !important; }
+            h1, h2, .sidebar-h2, .section-title, ul, li { color: black !important; }
+            .progress-bg { border: 1px solid #ddd !important; }
+            .progress-fill { background: #333 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="no-print-nav">
+        <a href="index.html" class="btn">← Portfolio</a>
+        <div style="display: flex; gap: 10px;">
+            <a href="FUNMILOLA_CV.pdf" target="_blank" class="btn" download><i class="fa-solid fa-file-pdf"></i> PDF</a>
+            <a href="javascript:window.print()" class="btn"><i class="fa-solid fa-print"></i> Print</a>
+        </div>
+    </nav>
+
+    <div class="cv-container">
+        <aside class="sidebar">
+            <h1>Funmilola Olorode</h1>
+            <span class="sidebar-tagline">QA Engineer</span>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-h2">Contact</h2>
+                <div class="contact-group">
+                <div class="contact-item"><i class="fa-solid fa-location-dot"></i> United Kingdom</div>
+                <a href="mailto:funmilolaolorode@aol.com" class="contact-link"><i class="fa-solid fa-envelope"></i> funmilolaolorode@aol.com</a>
+                <div class="contact-link"><i class="fa-solid fa-phone"></i> +44 7901942518</div>
+            </div>
+        <div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-h2">Technical Proficiency</h2>
+                <div class="skill-container">
+                    <div class="skill-info"><span>Manual Testing</span><span>95%</span></div>
+                    <div class="progress-bg"><div class="progress-fill" data-percent="95"></div></div>
+                </div>
+                <div class="skill-container">
+                    <div class="skill-info"><span>Automation (Selenium)</span><span>85%</span></div>
+                    <div class="progress-bg"><div class="progress-fill" data-percent="85"></div></div>
+                </div>
+                <div class="skill-container">
+                    <div class="skill-info"><span>SQL / Data Analysis</span><span>90%</span></div>
+                    <div class="progress-bg"><div class="progress-fill" data-percent="90"></div></div>
+                </div>
+                <div class="skill-container">
+                    <div class="skill-info"><span>API Testing (Postman)</span><span>80%</span></div>
+                    <div class="progress-bg"><div class="progress-fill" data-percent="80"></div></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-h2">Education</h2>
+                <p style="font-size: 0.85rem; margin-bottom: 5px;"><strong>MSc Business Analytics</strong><br>University of Dundee, 2024</p>
+                <p style="font-size: 0.85rem;"><strong>BSc Integrated Science</strong><br>University of Lagos, 2014</p>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-h2">Certifications</h2>
+                <p style="font-size: 0.85rem;">ISTQB Foundation Level Certified Tester (2024)</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="summary-box">
+                ISTQB-certified Software Test Engineer with an MSc in Business Analytics. I optimize software quality and identify patterns that enhance end-to-end user experiences.
+            </div>
+
+            <h2 class="section-title">Experience</h2>
+
+            <div class="exp-item">
+                <div class="exp-header"><span>Software Test Engineer</span> <span>2024 - Present</span></div>
+                <div class="exp-sub"><span>QV Systems</span> <span>United Kingdom</span></div>
+                <ul>
+                    <li>Conduct UAT and manual regression testing to ensure zero defects in production.</li>
+                    <li>Maintain and improve Selenium automated test cases written in Ruby.</li>
+                    <li>Perform API manual testing using Postman for system integration reliability.</li>
+                    <li>Manage defect tracking via JIRA and document QA processes.</li>
+                </ul>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header"><span>Customer Support Specialist</span> <span>2024 - 2024</span></div>
+                <div class="exp-sub"><span>QV Systems</span> <span>United Kingdom</span></div>
+                <ul>
+                    <li>Investigated over 100 software issues per month, leading to a 15% reduction in recurring incidents.</li>
+                    <li>Collaborated with QA teams to prioritize critical bugs, increasing satisfaction scores by 10%.</li>
+                    <li>Assisted with pre-deployment testing of minor software fixes.</li>
+                </ul>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header"><span>Customer Success Analyst</span> <span>2023 - 2024</span></div>
+                <div class="exp-sub"><span>Loro Farms and Tech</span> <span>Nigeria</span></div>
+                <ul>
+                    <li>Utilized SQL and Power BI to analyze customer data, increasing retention by 12%.</li>
+                    <li>Generated performance reports leading to a 20% improvement in user satisfaction.</li>
+                </ul>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header"><span>Business Associate</span> <span>2021 - 2022</span></div>
+                <div class="exp-sub"><span>Globacom Ltd</span> <span>Nigeria</span></div>
+                <ul>
+                    <li>Identified and documented defects, achieving a 10% increase in engagement.</li>
+                    <li>Enhanced product compliance by 15% through usability testing.</li>
+                </ul>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header"><span>Bank Teller</span> <span>2017 - 2019</span></div>
+                <div class="exp-sub"><span>Access Bank plc</span> <span>Nigeria</span></div>
+                <ul>
+                    <li>Processed 500+ daily transactions accurately while adhering to regulatory guidelines.</li>
+                    <li>Balanced tills daily and assisted with end-of-day reconciliation.</li>
+                </ul>
+            </div>            
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fills = document.querySelectorAll('.progress-fill');
+            // Trigger animation after a slight delay
+            setTimeout(() => {
+                fills.forEach(bar => {
+                    const percentage = bar.getAttribute('data-percent');
+                    bar.style.width = percentage + '%';
+                });
+            }, 400);
+        });
+    </script>
+</body>
+</html>
