@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage
-from config.environments import get_environment
+from shared.base_page import BasePage
+from shared.environments import get_environment
 
 
 class LoginPage(BasePage):

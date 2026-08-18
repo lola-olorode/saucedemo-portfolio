@@ -5,12 +5,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from pages.login_page import LoginPage
-from pages.inventory_page import InventoryPage
-from config.test_data import USERS, PASSWORD
-from config.environments import get_environment
-from utils.logger import get_logger
-from utils.screenshot import capture_screenshot
+from flows.auth_flow import AuthFlow
+from shared.environments import get_environment
+from shared.utils.logger import get_logger
+from shared.utils.screenshot import capture_screenshot
 
 log = get_logger(__name__)
 
@@ -40,14 +38,10 @@ def driver():
 
 @pytest.fixture
 def logged_in_driver(driver):
-    """Returns a driver already authenticated as the standard user,
-    landed on the inventory page. Saves every test that needs a logged-in
-    session from repeating the login steps."""
-    log.info("Logging in as standard_user")
-    login_page = LoginPage(driver)
-    login_page.load()
-    login_page.login(USERS["standard"], PASSWORD)
-    InventoryPage(driver).is_loaded()
+    """Returns a driver already authenticated as the standard fixture
+    user, landed on the inventory page — via AuthFlow, so the login
+    journey lives in one place instead of being repeated across tests."""
+    AuthFlow(driver).login_and_reach_inventory("standard")
     return driver
 
 
