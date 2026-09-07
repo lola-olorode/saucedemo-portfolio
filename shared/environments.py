@@ -42,7 +42,5 @@ ENVIRONMENTS = {
 def get_environment() -> EnvironmentConfig:
     env_name = os.getenv("ENV", "prod").lower()
     if env_name not in ENVIRONMENTS:
-        raise ValueError(
-            f"Unknown ENV '{env_name}'. Valid options: {list(ENVIRONMENTS)}"
-        )
+        raise ValueError(f"Unknown ENV '{env_name}'. Valid options: {list(ENVIRONMENTS)}")
     return ENVIRONMENTS[env_name]

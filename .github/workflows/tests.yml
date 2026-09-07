@@ -8,7 +8,29 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dev dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Check formatting (black)
+        run: black --check .
+
+      - name: Lint (flake8)
+        run: flake8 .
+
   test:
+    needs: lint
     runs-on: ubuntu-latest
 
     steps:

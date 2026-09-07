@@ -13,7 +13,9 @@ class TestLogin:
         login_page.login(user["username"], user["password"])
 
         inventory_page = InventoryPage(driver)
-        assert inventory_page.is_loaded(), "Expected to land on the inventory page after valid login"
+        assert (
+            inventory_page.is_loaded()
+        ), "Expected to land on the inventory page after valid login"
 
     @pytest.mark.regression
     def test_locked_out_user_is_blocked(self, driver):

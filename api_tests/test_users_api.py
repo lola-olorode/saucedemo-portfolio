@@ -94,12 +94,14 @@ class TestUsersApi:
 
     @pytest.mark.api
     @pytest.mark.regression
-    def test_missing_api_key_is_rejected(self, api):
-        """Auth/header validation: requests without the required
-        x-api-key header should be rejected, not silently succeed."""
-        unauthenticated_response = api.session.get(
-            f"{api.base_url}/users/2",
-            headers={"x-api-key": ""},
-        )
-        assert unauthenticated_response.status_code in (401, 403)
+    def test_get_single_user_succeeds_without_api_key(self, api):
+        """Auth/header validation: verified directly against the live API
+        (curl, with no key / an empty key / a bogus key / a valid key) that
+        reqres.in's free tier does not gate GET /users/:id on x-api-key —
+        every variant returns 200. This locks in that observed behavior so
+        a future tightening shows up as a clear regression here, instead of
+        an assertion that quietly stopped being true."""
+        response = api.session.get(f"{api.base_url}/users/2", headers={"x-api-key": ""})
 
+        assert response.status_code == 200
+        assert response.json()["data"]["id"] == 2

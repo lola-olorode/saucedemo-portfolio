@@ -17,7 +17,9 @@ class TestInventory:
         page.sort_by("hilo")
 
         prices = page.get_item_prices()
-        assert prices == sorted(prices, reverse=True), "Prices should be descending after high-to-low sort"
+        assert prices == sorted(
+            prices, reverse=True
+        ), "Prices should be descending after high-to-low sort"
 
     @pytest.mark.regression
     def test_sort_name_a_to_z(self, logged_in_driver):

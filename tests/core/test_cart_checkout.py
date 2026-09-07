@@ -29,6 +29,8 @@ class TestCartAndCheckout:
 
         checkout = CheckoutPage(logged_in_driver)
         info = load_checkout_info("default")
-        checkout.fill_information(first_name="", last_name=info["last_name"], postal_code=info["postal_code"])
+        checkout.fill_information(
+            first_name="", last_name=info["last_name"], postal_code=info["postal_code"]
+        )
 
         assert "first name is required" in checkout.get_error_message().lower()

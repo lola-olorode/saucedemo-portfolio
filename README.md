@@ -36,11 +36,14 @@ saucedemo-automation/
 │   ├── user_loader.py
 │   └── checkout_data_loader.py
 ├── api_tests/                # API-layer suite (independent of the UI)
+├── api-testing/                # Standalone Postman collection (see its README)
 ├── tests/
 │   ├── core/                  # Feature-level tests, one file per screen/feature
-│   └── sweeps/                 # Full-journey smoke + regression sweeps
+│   ├── sweeps/                 # Full-journey smoke + regression sweeps
+│   └── unit/                    # Framework-logic tests (env config, API client), no browser
 ├── conftest.py                 # Fixtures + screenshot-on-failure hook
-├── .github/workflows/           # CI: runs the suite on every push
+├── .github/workflows/           # CI: lint, then the full suite, on every push
+├── .flake8 / pyproject.toml     # Lint (flake8) and format (black) config
 └── pytest.ini
 ```
 
@@ -63,7 +66,32 @@ saucedemo-automation/
   isolation; **`tests/sweeps/`** covers full end-to-end journeys — smoke
   (fast, every commit) and regression (broader, pre-release) — kept
   separate because they serve different purposes and run at different
-  times in a CI pipeline.
+  times in a CI pipeline. **`tests/unit/`** tests framework logic
+  (environment selection, the API client) directly, with no browser
+  involved.
+- **API testing, two ways** — `api_tests/` is the automated, CI-integrated
+  suite; `api-testing/` is a standalone Postman collection covering the
+  same reqres.in endpoints, for manual/exploratory API regression the way
+  it's actually run day-to-day. See [`api-testing/README.md`](./api-testing/README.md).
+- **CI-first** — GitHub Actions lints (flake8/black), then runs the full
+  suite headless, on every push; the HTML report uploads as a build
+  artifact.
+
+## Reliability notes
+
+`BasePage.click`/`type_text` verify that a native Selenium action
+actually reached the page (a listener confirms the click fired; the
+input's DOM value is checked after typing) before falling back to a
+JS-dispatched equivalent — some of saucedemo.com's React-controlled
+elements silently don't respond to plain WebDriver clicks/`send_keys` on
+current Chrome. Native interaction is always tried first so tests still
+exercise real browser input by default; the fallback only fires when
+that demonstrably didn't work.
+
+`CartPage.get_item_count()` also catches the case where the cart is
+legitimately empty — the underlying wait strategy expects at least one
+matching element, so an empty cart is treated as "not found yet" and
+would otherwise time out instead of returning 0.
 
 ## Coverage
 
@@ -74,7 +102,7 @@ saucedemo-automation/
 | Cart & Checkout (core) | Remove item, full happy-path checkout, required-field validation |
 | Smoke sweep | One full login → shop → checkout journey |
 | Regression sweep | Full journey repeated across multiple fixture accounts |
-| Users (API) | Get single/list, 404 handling, create, update, delete, auth/header validation |
+| Users (API) | Get single/list, 404 handling, create, update, delete, header behavior |
 
 Manual regression coverage and a requirement-traceability matrix are
 tracked in [`REGRESSION_SUITE.md`](./REGRESSION_SUITE.md).
@@ -82,17 +110,39 @@ tracked in [`REGRESSION_SUITE.md`](./REGRESSION_SUITE.md).
 ## Running locally
 
 ```bash
-pip install -r requirements.txt
-pytest                      # full suite, headless by default
+pip install -r requirements-dev.txt   # includes requirements.txt + lint tools
+black --check .              # formatting check
+flake8 .                      # lint
+pytest                      # full suite — headless by default, no browser window appears
+pytest tests/unit             # framework-logic tests only, no browser
 pytest -m smoke              # fast critical-path subset only
 pytest tests/sweeps           # full-journey sweeps only
-HEADED=1 pytest tests/core     # watch UI tests run in a visible browser
+HEADED=1 pytest tests/core     # watch it happen in a real Chrome window
 ENV=staging pytest              # target a different environment
 ```
+
+**Windows / PowerShell** (e.g. VS Code's integrated terminal) needs env
+vars set as a separate statement rather than prefixed on the command line:
+
+```powershell
+pip install -r requirements-dev.txt
+black --check .
+flake8 .
+pytest
+
+$env:HEADED = "1"
+pytest tests/core                    # watch it happen in a real Chrome window
+
+$env:ENV = "staging"
+pytest                                # target a different environment
+```
+
+`$env:HEADED` stays set for the rest of that terminal session — open a new
+terminal, or run `Remove-Item Env:HEADED`, to go back to headless.
 
 An HTML report is generated at `reports/report.html`, logs at
 `reports/logs/`, and failure screenshots at `reports/screenshots/`.
 
 ## Tech stack
 
-Python · Selenium WebDriver · pytest · requests · webdriver-manager · GitHub Actions
+Python · Selenium WebDriver · pytest · requests · webdriver-manager · Postman/Newman · flake8/black · GitHub Actions
